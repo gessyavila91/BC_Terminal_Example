@@ -17,9 +17,9 @@ using Org.BouncyCastle.Bcpg.OpenPgp;
 using Org.BouncyCastle.Security;
 
 public class PgpExample {
-    private const string PublicKeyPath = @"C:\Users\getsemani.avila\Desktop\TEST_PASS_0x2B63FC09_public.asc";
-    private const string PrivateKeyPath = @"C:\Users\getsemani.avila\Desktop\TEST_PASS_0x2B63FC09_SECRET.asc";
-    private const string Password = "password";// Cambia esto por la contraseña de tu llave privada
+    private const string PublicKeyPath = @"C:\Users\getsemani.avila\Desktop\TEST_NO_PASS_0xE887B525_public.asc";
+    private const string PrivateKeyPath = @"C:\Users\getsemani.avila\Desktop\TEST_NO_PASS_0xE887B525_SECRET.asc";
+    private const string Password = null;// Cambia esto por la contraseña de tu llave privada
 
     /// <summary>
     /// Método principal de ejecución.
@@ -179,8 +179,8 @@ public class PgpExample {
                         // if (key.IsSigningKey) continue; 
 
                         // Intentar extraer la clave privada usando la contraseña proporcionada
-
-                        PgpPrivateKey privateKey = key.ExtractPrivateKey(password.ToCharArray());
+                        char[] passphrase = string.IsNullOrEmpty(password) ? null : password.ToCharArray();
+                        PgpPrivateKey privateKey = key.ExtractPrivateKey(passphrase);
 
                         // Si se extrajo con éxito, devolver esta clave
                         if (privateKey != null) {
@@ -200,5 +200,6 @@ public class PgpExample {
         // Si se llega a este punto, no se encontró ninguna clave de desencriptación adecuada. Lanzar una excepción.
         throw new ArgumentException("Can't find decryption key in private key ring.");
     }
+
 
 }
